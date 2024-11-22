@@ -739,6 +739,7 @@ void main() {
     this.videoTexture.minFilter = THREE.LinearFilter;
     this.videoTexture.magFilter = THREE.LinearFilter;
     this.videoTexture.format = THREE.RGBAFormat;
+    this.videoTexture.colorSpace = THREE.SRGBColorSpace;
 
     this.changeProjection_(this.currentProjection_);
 
@@ -765,6 +766,7 @@ void main() {
       antialias: true,
       powerPreference: 'high-performance'
     });
+    this.renderer.outputColorSpace = THREE.SRGBColorSpace;
 
     const webglContext = this.renderer.getContext('webgl');
     const oldTexImage2D = webglContext.texImage2D;
