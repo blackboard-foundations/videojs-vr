@@ -45,10 +45,19 @@ class OrbitOrientationControls {
     this.domElement = options.canvas;
     this.orbit = new OrbitControls(this.object, this.domElement);
 
+    // Listen for key events on the videojs player as that gets focussed
+    this.orbit.listenToKeyEvents(options.canvas.parentElement);
+
     this.speed = 0.5;
     this.orbit.target.set(0, 0, -1);
     this.orbit.enableZoom = false;
-    this.orbit.enablePan = false;
+
+    // TODO: Set this back to false once https://github.com/mrdoob/three.js/pull/29834/files
+    // gets released
+    this.orbit.enablePan = true;
+    // TODO: PR a change to threejs to add a `keyRotateSpeed` on OrbitControls so
+    // that the rotation speed can be different from a mouse vs a keyboard as a
+    // speed of 0.5 is too slow
     this.orbit.rotateSpeed = -this.speed;
 
     // if orientation is supported
