@@ -4,8 +4,7 @@ import {
   MathUtils,
   Quaternion,
   Vector3
-} from '../../node_modules/three/build/three.module.js';
-import document from "global/document";
+} from 'three';
 
 const _zee = new Vector3( 0, 0, 1 );
 const _euler = new Euler();

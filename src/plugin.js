@@ -16,8 +16,8 @@ import imgUx from './img';
 // WebXR related imports
 import WebXRPolyfill from 'webxr-polyfill';
 import {VRButton} from '../vendor/three/VRButton.js';
-import {XRControllerModelFactory} from '../node_modules/three/examples/jsm/webxr/XRControllerModelFactory';
-import {BoxLineGeometry} from '../node_modules/three/examples/jsm/geometries/BoxLineGeometry';
+import {XRControllerModelFactory} from 'three/examples/jsm/webxr/XRControllerModelFactory';
+import {BoxLineGeometry} from 'three/examples/jsm/geometries/BoxLineGeometry';
 
 // import controls so they get registered with videojs
 import './big-vr-play-button';

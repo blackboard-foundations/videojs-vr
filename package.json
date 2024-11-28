@@ -1,6 +1,6 @@
 {
   "name": "videojs-vr",
-  "version": "2.1.0-bb5",
+  "version": "2.1.0-bb6",
   "description": "A plugin to add VR/XR video support to video.js.",
   "author": {
     "name": "James Broberg",
@@ -88,9 +88,11 @@
     "@babel/runtime": "^7.14.5",
     "babel-polyfill": "^6.26.0",
     "global": "^4.4.0",
-    "three": "^0.170.0",
     "video.js": "^8.20.0",
     "webxr-polyfill": "^2.0.3"
+  },
+  "peerDependencies": {
+    "three": "^0.170.0"
   },
   "devDependencies": {
     "@videojs/generator-helpers": "^3.0.1",
