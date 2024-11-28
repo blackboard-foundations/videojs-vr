@@ -903,21 +903,6 @@ void main() {
     window.addEventListener('vrdisplaydeactivate', this.handleVrDisplayDeactivate_, true);
     window.addEventListener('pointerdown', this.handleUserActive_, true);
 
-    // For iOS we need permission for the device orientation data, this will pop up an 'Allow'
-    // eslint-disable-next-line
-    if (typeof window.DeviceMotionEvent === 'function' &&
-      typeof window.DeviceMotionEvent.requestPermission === 'function') {
-      const self = this;
-
-      window.DeviceMotionEvent.requestPermission().then(response => {
-        if (response === 'granted') {
-          window.addEventListener('deviceorientation', (event) => {
-            self.onDeviceOrientationChange(event.beta, event.gamma, event.alpha);
-          });
-        }
-      });
-    }
-
     this.initialized_ = true;
     this.trigger('initialized');
   }
