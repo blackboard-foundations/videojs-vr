@@ -87,11 +87,11 @@ class VR extends Plugin {
 
     this.polyfill_ = new WebXRPolyfill(POLYFILL_CONFIG);
 
-    this.handleVrDisplayActivate_ = videojs.bind(this, this.handleVrDisplayActivate_);
-    this.handleVrDisplayDeactivate_ = videojs.bind(this, this.handleVrDisplayDeactivate_);
-    this.handleResize_ = videojs.bind(this, this.handleResize_);
-    this.animate_ = videojs.bind(this, this.animate_);
-    this.handleUserActive_ = videojs.bind(this, this.handleUserActive_);
+    this.handleVrDisplayActivate_ = this.handleVrDisplayActivate.bind(this);
+    this.handleVrDisplayDeactivate_ = this.handleVrDisplayDeactivate.bind(this);
+    this.handleResize_ = this.handleResize.bind(this);
+    this.animate_ = this.animate.bind(this);
+    this.handleUserActive_ = this.handleUserActive.bind(this);
 
     this.setProjection(this.options_.projection);
 
@@ -543,7 +543,7 @@ void main() {
     });
   }
 
-  handleVrDisplayActivate_() {
+  handleVrDisplayActivate() {
     if (!this.vrDisplay) {
       return;
     }
@@ -554,7 +554,7 @@ void main() {
     });
   }
 
-  handleVrDisplayDeactivate_() {
+  handleVrDisplayDeactivate() {
     if (!this.vrDisplay || !this.vrDisplay.isPresenting) {
       return;
     }
@@ -565,7 +565,7 @@ void main() {
 
   }
 
-  handleUserActive_() {
+  handleUserActive() {
     if (this.webVREffect) {
       this.webVREffect.isPresenting = true;
     }
@@ -603,7 +603,7 @@ void main() {
     this.player_.currentTime(this.player_.currentTime() + 10);
   }
 
-  animate_() {
+  animate() {
     if (!this.initialized_) {
       return;
     }
@@ -669,7 +669,7 @@ void main() {
     }
   }
 
-  handleResize_() {
+  handleResize() {
     let width = this.player_.currentWidth();
     let height = this.player_.currentHeight();
 
@@ -1265,7 +1265,7 @@ void main() {
     window.removeEventListener('vrdisplaypresentchange', this.handleResize_, true);
     window.removeEventListener('vrdisplayactivate', this.handleVrDisplayActivate_, true);
     window.removeEventListener('vrdisplaydeactivate', this.handleVrDisplayDeactivate_, true);
-    window.removeEventListener('pointerdown', this.handleUserActive_, true);
+    window.removeEventListener('pointerdown', this.handleUserActive, true);
 
     // re-add the big play button to player
     if (!this.player_.getChild('BigPlayButton')) {

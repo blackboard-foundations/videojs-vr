@@ -7,10 +7,10 @@ class CardboardButton extends Button {
   constructor(player, options) {
     super(player, options);
 
-    this.handleVrDisplayActivate_ = videojs.bind(this, this.handleVrDisplayActivate_);
-    this.handleVrDisplayDeactivate_ = videojs.bind(this, this.handleVrDisplayDeactivate_);
-    this.handleVrDisplayPresentChange_ = videojs.bind(this, this.handleVrDisplayPresentChange_);
-    this.handleOrientationChange_ = videojs.bind(this, this.handleOrientationChange_);
+    this.handleVrDisplayActivate_ = this.handleVrDisplayActivate.bind(this);
+    this.handleVrDisplayDeactivate_ = this.handleVrDisplayDeactivate.bind(this);
+    this.handleVrDisplayPresentChange_ = this.handleVrDisplayPresentChange.bind(this);
+    this.handleOrientationChange_ = this.handleOrientationChange.bind(this);
     window.addEventListener('orientationchange', this.handleOrientationChange_);
     window.addEventListener('vrdisplayactivate', this.handleVrDisplayActivate_);
     window.addEventListener('vrdisplaydeactivate', this.handleVrDisplayDeactivate_);
@@ -39,16 +39,16 @@ class CardboardButton extends Button {
     return `vjs-button-vr ${super.buildCSSClass()}`;
   }
 
-  handleVrDisplayPresentChange_() {
+  handleVrDisplayPresentChange() {
     if (!this.player_.vr().vrDisplay.isPresenting && this.active_) {
       this.handleVrDisplayDeactivate_();
     }
     if (this.player_.vr().vrDisplay.isPresenting && !this.active_) {
-      this.handleVrDisplayActivate_();
+      this.handleVrDisplayActivate();
     }
   }
 
-  handleOrientationChange_() {
+  handleOrientationChange() {
     if (this.active_ && videojs.browser.IS_IOS) {
       this.changeSize_();
     }
@@ -60,7 +60,7 @@ class CardboardButton extends Button {
     window.dispatchEvent(new window.Event('resize'));
   }
 
-  handleVrDisplayActivate_() {
+  handleVrDisplayActivate() {
     // we mimic fullscreen on IOS
     if (videojs.browser.IS_IOS) {
       this.oldWidth_ = this.player_.currentWidth();
@@ -72,7 +72,7 @@ class CardboardButton extends Button {
     this.active_ = true;
   }
 
-  handleVrDisplayDeactivate_() {
+  handleVrDisplayDeactivate() {
     // un-mimic fullscreen on iOS
     if (videojs.browser.IS_IOS) {
       if (this.oldWidth_) {
@@ -105,6 +105,7 @@ class CardboardButton extends Button {
 
   dispose() {
     super.dispose();
+    window.removeEventListener('orientationchange', this.handleOrientationChange_);
     window.removeEventListener('vrdisplayactivate', this.handleVrDisplayActivate_);
     window.removeEventListener('vrdisplaydeactivate', this.handleVrDisplayDeactivate_);
     window.removeEventListener('vrdisplaypresentchange', this.handleVrDisplayPresentChange_);

@@ -17,10 +17,10 @@ class CanvasPlayerControls extends videojs.EventTarget {
     this.canvas = canvas;
     this.options = options;
 
-    this.onMoveEnd = videojs.bind(this, this.onMoveEnd);
-    this.onMoveStart = videojs.bind(this, this.onMoveStart);
-    this.onMove = videojs.bind(this, this.onMove);
-    this.onControlBarMove = videojs.bind(this, this.onControlBarMove);
+    this.onMoveEnd = this.onMoveEnd.bind(this);
+    this.onMoveStart = this.onMoveStart.bind(this);
+    this.onMove = this.onMove.bind(this);
+    this.onControlBarMove = this.onControlBarMove.bind(this);
 
     this.player.controlBar.on([
       'mousedown',
