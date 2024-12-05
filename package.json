@@ -77,7 +77,8 @@
     "index.html",
     "scripts/",
     "src/",
-    "test/"
+    "test/",
+    "vendor/"
   ],
   "greenkeeper": {
     "ignore": [
