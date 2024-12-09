@@ -1,0 +1,30 @@
+# Anthology Customizations
+
+This branch contains a set of customizations from the original [videojs-vr](https://github.com/videojs/videojs-vr) plugin.
+
+The original videojs-vr plugin is built on top of the [webvr-polyfill](https://github.com/immersive-web/webvr-polyfill) which saw its latest update in Jan 2021. A newer standard is available through [WebXR](https://developer.mozilla.org/en-US/docs/Web/API/WebXR_Device_API) and polyfilled through [webxr-polyfill](https://github.com/immersive-web/webxr-polyfill).
+
+There's a long outstanding PR which attempts to bring this new standard to videojs-vr:
+https://github.com/videojs/videojs-vr/pull/273. Unfortunately, at the time of writing (2024-12-09), this PR has not landed yet and is not available from a NPM repository.
+
+In order to make use of the newer WebXR standard, the proposed branch was forked into this repo and some minor changes have been applied to it.
+
+Ideally, that PR is merged into videojs-vr so that this fork can be removed. Anthology has reached out to the original developer. If they do not plan to continue their work, the intent is for Anthology to tidy up the PR to a point that it's considered mergable by the videojs-vr maintainers.
+
+## Changes
+
+Please refer to the git commit log for a full set of changes, but the following has been changed:
+
+1. Upgrade ThreeJS to v170
+2. Upgrade VideoJS
+3. Don't bundle three.js as it's a large dependency  (this needs further work)
+4. Remove babel-polyfill from bundle
+5. Remove iOS deviceorientation on page load as that can only be requested on a user action.
+6. Don't use videojs.bind as v9 will remove it
+
+## References
+
+1. Official videojs-vr plugin: https://github.com/videojs/videojs-vr
+2. MetaCDN fork: https://github.com/MetaCDN/videojs-vr/tree/5f5ce224b53aaa90d853e01c25c8c9a6abcc5a96
+   This is also available in this repository at https://github.com/blackboard-foundations/videojs-vr/tree/feature/metacdn-fork
+
