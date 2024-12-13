@@ -714,7 +714,7 @@ void main() {
   init() {
     this.reset();
 
-    this.camera = new THREE.PerspectiveCamera(70, this.player_.currentWidth() / this.player_.currentHeight(), 1, 2000);
+    this.camera = new THREE.PerspectiveCamera(70, this.player_.currentWidth() / this.player_.currentHeight(), 0.1, 2000);
 
     if (!this.isAndroidNativeCardboardSupport) {
       this.orbitcontrols = new DeviceOrientationControls(this.camera);
