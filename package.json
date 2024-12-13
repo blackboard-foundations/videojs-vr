@@ -91,7 +91,7 @@
     "webxr-polyfill": "^2.0.3"
   },
   "peerDependencies": {
-    "three": "^0.170.0"
+    "three": "^0.171.0"
   },
   "devDependencies": {
     "@babel/runtime": "^7.14.5",
