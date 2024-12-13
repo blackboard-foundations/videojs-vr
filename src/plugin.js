@@ -1304,6 +1304,11 @@ void main() {
       this.cancelAnimationFrame(this.animationFrameId_);
     }
 
+    // remove the "Enter VR" button if it was added
+    if (this.vrButton) {
+      this.vrButton.remove();
+    }
+
     this.initialized_ = false;
   }
 
