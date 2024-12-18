@@ -136,7 +136,7 @@ class VR extends Plugin {
       return this.changeProjection_('NONE');
     } else if (projection === '360') {
       this.movieGeometry = new THREE.SphereGeometry(this.options_.sphereRadius, this.options_.sphereDetail, this.options_.sphereDetail);
-      this.movieMaterial = new THREE.MeshBasicMaterial({ map: this.videoTexture, overdraw: true, side: THREE.BackSide });
+      this.movieMaterial = new THREE.MeshBasicMaterial({ map: this.videoTexture, side: THREE.BackSide });
 
       this.movieScreen = new THREE.Mesh(this.movieGeometry, this.movieMaterial);
       this.movieScreen.position.set(position.x, position.y, position.z);
@@ -359,7 +359,7 @@ class VR extends Plugin {
 
         this.movieGeometry = new THREE.BoxGeometry(256, 256, 256);
         this.movieMaterial = new THREE.ShaderMaterial({
-          overdraw: true, side: THREE.BackSide,
+          side: THREE.BackSide,
           uniforms: {
             mapped: {value: this.videoTexture},
             mapMatrix: {value: mapMatrix},
