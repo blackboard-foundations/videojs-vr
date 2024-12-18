@@ -78,7 +78,8 @@
     "scripts/",
     "src/",
     "test/",
-    "vendor/"
+    "vendor/",
+    "types/"
   ],
   "greenkeeper": {
     "ignore": [
@@ -95,6 +96,7 @@
   },
   "devDependencies": {
     "@babel/runtime": "^7.14.5",
+    "@types/three": "^0.171.0",
     "@videojs/generator-helpers": "^3.0.1",
     "babel-polyfill": "^6.26.0",
     "copyfiles": "^2.4.1",
@@ -121,5 +123,6 @@
       "pre-commit": "lint-staged"
     }
   },
-  "browserslist": ["defaults"]
+  "browserslist": ["defaults"],
+  "types": "types/index.d.ts"
 }
