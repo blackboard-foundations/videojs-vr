@@ -16,7 +16,7 @@ class OmnitoneController extends videojs.EventTarget {
   constructor(audioContext, omnitone, video, options) {
     super();
 
-    const settings = videojs.mergeOptions({
+    const settings = videojs.obj.merge({
       // Safari uses the different AAC decoder than FFMPEG. The channel order is
       // The default 4ch AAC channel layout for FFMPEG AAC channel ordering.
       channelMap: videojs.browser.IS_SAFARI ? [2, 0, 1, 3] : [0, 1, 2, 3],

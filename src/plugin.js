@@ -59,7 +59,7 @@ const Component = videojs.getComponent('Component');
 
 class VR extends Plugin {
   constructor(player, options) {
-    const settings = videojs.mergeOptions(defaults, options);
+    const settings = videojs.obj.merge(defaults, options);
 
     super(player, settings);
 
