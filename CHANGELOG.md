@@ -1,24 +1,9 @@
-<a name="2.1.2"></a>
-# [2.1.2](https://github.com/videojs/videojs-vr/compare/v1.10.1...v2.1.2) (2024-08-18)
+<a name="3.0.0"></a>
+# [3.0.0](https://github.com/videojs/videojs-vr/compare/v2.0.0...v3.0.0) (2025-01-06)
 
-### Chores
+### BREAKING CHANGES
 
-* Android can use built in cardaboard faetaure, else use the gyro if avaiable and permmision allow it
-  
-<a name="2.1.1"></a>
-# [2.1.1](https://github.com/videojs/videojs-vr/compare/v1.10.1...v2.1.1) (2024-08-17)
-
-### Chores
-
-* rollback THREE.js as this introduced a noticable gamma/brightness increase, adding gyro support, moved 
-* immersive controller images into base64
-
-<a name="2.1.0"></a>
-# [2.1.0](https://github.com/videojs/videojs-vr/compare/v1.10.1...v2.1.0) (2024-07-22)
-
-### Chores
-
-* revisting clean exit immersive and 180 projection
+* Drop WebVR in favor of WebXR
 
 <a name="2.0.0"></a>
 # [2.0.0](https://github.com/videojs/videojs-vr/compare/v1.10.1...v2.0.0) (2023-02-15)
