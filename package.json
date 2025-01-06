@@ -89,7 +89,7 @@
   "dependencies": {
     "@types/three": "^0.171.0",
     "global": "^4.4.0",
-    "video.js": "^8.21.0",
+    "video.js": "^8",
     "webxr-polyfill": "^2.0.3"
   },
   "peerDependencies": {
