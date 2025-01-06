@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-// import DeviceOrientationControls from '../vendor/three/DeviceOrientationControls.js';
+import { DeviceOrientationControls } from '../vendor/three/DeviceOrientationControls.js';
 
 /**
  * Convert a quaternion to an angle
@@ -48,21 +48,15 @@ class OrbitOrientationControls {
     // Listen for key events on the videojs player as that gets focussed
     this.orbit.listenToKeyEvents(options.canvas.parentElement);
 
-    this.speed = 0.5;
+    this.speed = 5;
     this.orbit.target.set(0, 0, -1);
     this.orbit.enableZoom = false;
-
-    // TODO: Set this back to false once https://github.com/mrdoob/three.js/pull/29834/files
-    // gets released
-    this.orbit.enablePan = true;
-    // TODO: PR a change to threejs to add a `keyRotateSpeed` on OrbitControls so
-    // that the rotation speed can be different from a mouse vs a keyboard as a
-    // speed of 0.5 is too slow
-    this.orbit.rotateSpeed = -this.speed;
+    this.orbit.enablePan = false;
+    this.orbit.keyRotateSpeed = -this.speed;
 
     // if orientation is supported
     if (options.orientation) {
-      // this.orientation = new DeviceOrientationControls(this.object);
+      this.orientation = new DeviceOrientationControls(this.object);
     }
 
     // if projection is not full view
@@ -92,8 +86,8 @@ class OrbitOrientationControls {
         this.lastAngle_ = currentAngle;
       }
 
-      this.orbit.rotateLeft((this.lastAngle_.z - currentAngle.z) * (1 + this.speed));
-      this.orbit.rotateUp((this.lastAngle_.y - currentAngle.y) * (1 + this.speed));
+      this.orbit._rotateLeft((this.lastAngle_.z - currentAngle.z) * (1 + this.speed));
+      this.orbit._rotateUp((this.lastAngle_.y - currentAngle.y) * (1 + this.speed));
       this.lastAngle_ = currentAngle;
     }
 
