@@ -906,10 +906,6 @@ void main() {
     this.trigger('initialized');
   }
 
-  onDeviceOrientationChange(pitch, roll, yaw) {
-    this.log(`orientation pitch=${parseInt(pitch, 10)} roll=${parseInt(roll, 10)} yaw=${parseInt(yaw, 10)}`);
-  }
-
   buildControllers() {
     const controllerModelFactory = new XRControllerModelFactory();
 
