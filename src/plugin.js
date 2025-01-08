@@ -167,6 +167,8 @@ class VR extends Plugin {
           yTransform += 0.5;
           uvs.setY(i, yTransform);
         }
+
+        uvs.needsUpdate = true;
       }
 
       this.movieMaterial = new THREE.MeshBasicMaterial({ map: this.videoTexture, side: THREE.BackSide });
@@ -643,16 +645,6 @@ void main() {
           }
         }
       }
-    }
-
-    if (this.renderer.xr.isPresenting === true) {
-      const cameraVector = new THREE.Vector3();
-      const xrCamera = this.renderer.xr.getCamera(this.camera);
-
-      xrCamera.getWorldDirection(cameraVector);
-      this.holodeck.rotation.y = -cameraVector.x * (Math.PI / 2);
-      this.controls.quaternion.copy(xrCamera.quaternion);
-      this.controls.lookAt(xrCamera.position);
     }
 
     this.animationFrameId_ = this.requestAnimationFrame(this.animate_);
@@ -1224,6 +1216,18 @@ void main() {
         self.renderController(controller);
       });
     }
+
+    if (this.renderer.xr.isPresenting) {
+      // Ensure the holodock controls are always centered in front of the user
+      const cameraVector = new THREE.Vector3();
+      const xrCamera = this.renderer.xr.getCamera(this.camera);
+
+      xrCamera.getWorldDirection(cameraVector);
+      this.holodeck.rotation.y = -cameraVector.x * (Math.PI / 2);
+      this.controls.quaternion.copy(xrCamera.quaternion);
+      this.controls.lookAt(xrCamera.position);
+    }
+
     this.renderer.render(this.scene, this.camera);
   }
 
