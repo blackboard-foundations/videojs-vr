@@ -1,6 +1,6 @@
 {
   "name": "videojs-vr",
-  "version": "2.1.0-bb19",
+  "version": "2.1.0-bb20",
   "description": "A plugin to add VR/XR video support to video.js.",
   "author": {
     "name": "James Broberg",
