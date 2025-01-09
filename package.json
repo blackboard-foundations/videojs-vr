@@ -92,9 +92,7 @@
     "webxr-polyfill": "^2.0.3"
   },
   "devDependencies": {
-    "@babel/runtime": "^7.14.5",
     "@videojs/generator-helpers": "^3.0.1",
-    "babel-polyfill": "^6.26.0",
     "copyfiles": "^2.4.1",
     "husky": "^8.0.3",
     "karma": "^6.3.4",
