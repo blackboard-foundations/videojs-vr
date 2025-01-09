@@ -87,11 +87,9 @@
   "dependencies": {
     "@types/three": "^0.172.0",
     "global": "^4.4.0",
+    "three": "^0.172.0",
     "video.js": "^8",
     "webxr-polyfill": "^2.0.3"
-  },
-  "peerDependencies": {
-    "three": "^0.172.0"
   },
   "devDependencies": {
     "@babel/runtime": "^7.14.5",
