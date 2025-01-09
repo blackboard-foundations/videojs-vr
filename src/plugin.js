@@ -29,7 +29,8 @@ const defaults = {
   projection: 'AUTO',
   sphereDetail: 32,
   sphereRadius: 254.0,
-  disableTogglePlay: false
+  disableTogglePlay: false,
+  showEnterVR: true
 };
 
 const POLYFILL_CONFIG = {
@@ -805,9 +806,11 @@ void main() {
       this.log('WebXR is supported');
       window.navigator.xr.isSessionSupported('immersive-vr').then((supportsImmersiveVR) => {
         if (supportsImmersiveVR) {
-          // We support WebXR show the enter VRButton
-          this.vrButton = VRButton.createButton(this.renderer);
-          document.body.appendChild(this.vrButton);
+          if (this.options_.showEnterVR) {
+            // We support WebXR show the enter VRButton
+            this.vrButton = VRButton.createButton(this.renderer);
+            document.body.appendChild(this.vrButton);
+          }
           this.initImmersiveVR();
           this.initXRPolyfill(displays);
         } else {

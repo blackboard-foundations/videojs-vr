@@ -54,6 +54,7 @@ Maintenance Status: Stable
   - [`omnitone`](#omnitone)
   - [`omnitoneOptions`](#omnitoneoptions)
   - [`disableTogglePlay`](#disabletoggleplay)
+  - [`showEnterVR`](#showentervr)
 - [Credits](#credits)
 - [Support](#support)
 
@@ -296,6 +297,12 @@ Default options for the Omnitone library. Please check available options on http
 
 Feature to disable the togglePlay manually.
 This functionality is useful in live events so that users cannot stop the live, but still have a controlBar available.
+
+### `showEnterVR`
+
+> type: `boolean`, default: `true`
+
+When enabled, adds the "Enter VR" button on top of the video player.
 
 ## Credits ##
 
