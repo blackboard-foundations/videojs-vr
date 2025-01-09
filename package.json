@@ -93,7 +93,6 @@
   },
   "devDependencies": {
     "@videojs/generator-helpers": "^3.0.1",
-    "copyfiles": "^2.4.1",
     "husky": "^8.0.3",
     "karma": "^6.3.4",
     "lint-staged": "^13.1.0",
