@@ -21,6 +21,13 @@ Please refer to the git commit log for a full set of changes, but the following 
 4. Remove babel-polyfill from bundle
 5. Remove iOS deviceorientation on page load as that can only be requested on a user action.
 6. Don't use videojs.bind as v9 will remove it
+7. Expose offerXR and createXRSession and re-factor VRButton. This allows consumers
+   to manage when to start/offer a session themselves. It also avoids adding a button
+   in consumers their DOM.
+8. Add typescript bindings
+
+
+TODO: Fix buggy behavior in iOS
 
 ## References
 

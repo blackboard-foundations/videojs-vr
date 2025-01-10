@@ -742,7 +742,7 @@ void main() {
     }
 
     this.player_.removeChild('BigPlayButton');
-    this.player_.addChild('BigVrPlayButton', {}, this.bigPlayButtonIndex_);
+    this.player_.addChild('BigVrPlayButton', { vr: this }, this.bigPlayButtonIndex_);
     this.player_.bigPlayButton = this.player_.getChild('BigVrPlayButton');
 
     // if ios remove full screen toggle
@@ -855,7 +855,7 @@ void main() {
         canvas: this.renderedCanvas,
         // check if its a half sphere view projection
         halfView: this.currentProjection_.indexOf('180') === 0,
-        orientation: videojs.browser.IS_IOS || videojs.browser.IS_ANDROID || false
+        orientation: videojs.browser.IS_IOS || videojs.browser.IS_ANDROID
       };
 
       if (this.options_.motionControls === false) {
@@ -1147,11 +1147,28 @@ void main() {
   /**
    * Request a WebXR session
    *
-   * Note the following caveats apply:
-   * 1. This assumes you've checked WebXR is supported using navigator.xr.isSessionSupported
-   * 2. You're calling this when handling a user action (e.g. handling a button click)
+   * Note this assumes you're calling this when handling a user action.
+   * e.g. handling a button click
+   *
+   * If XR is not supported, this will not do anything.
    */
   async requestXRSession() {
+    if (!window.navigator.xr || !window.navigator.xr.requestSession) {
+      return;
+    }
+
+    let isSupported = false;
+
+    try {
+      isSupported = await window.navigator.xr.isSessionSupported('immersive-vr');
+    } catch (err) {
+      // Any errors related to checking whether XR is supported are treated as if
+      // it's not supported.
+    }
+    if (!isSupported) {
+      return;
+    }
+
     const session = await window.navigator.xr.requestSession('immersive-vr', this.getXRSessionOptions());
 
     this.renderer.xr.setSession(session);

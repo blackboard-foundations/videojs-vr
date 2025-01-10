@@ -4,6 +4,10 @@ import window from 'global/window';
 const BigPlayButton = videojs.getComponent('BigPlayButton');
 
 class BigVrPlayButton extends BigPlayButton {
+  constructor(player, options) {
+    super(player, options);
+  }
+
   buildCSSClass() {
     return `vjs-big-vr-play-button ${super.buildCSSClass()}`;
   }
@@ -11,7 +15,8 @@ class BigVrPlayButton extends BigPlayButton {
   async handleClick(event) {
     // For iOS we need permission for the device orientation data, this will pop up an 'Allow' if not already set
     // eslint-disable-next-line
-    if (typeof window.DeviceMotionEvent === 'function' &&
+    if (this.options().vr.options_.motionControls &&
+        typeof window.DeviceMotionEvent === 'function' &&
         typeof window.DeviceMotionEvent.requestPermission === 'function') {
       const response = await window.DeviceMotionEvent.requestPermission();
 
@@ -20,18 +25,10 @@ class BigVrPlayButton extends BigPlayButton {
       }
     }
 
-    if (window.navigator.xr && window.navigator.xr.requestSession) {
-      const sessionInit = {optionalFeatures: ['local-floor', 'bounded-floor', 'hand-tracking']};
+    // Try to request an XR session if it's supported. If not, then this does nothing.
+    this.options().vr.requestXRSession();
 
-      try {
-        const session = await window.navigator.xr.requestSession('immersive-vr', sessionInit);
-
-        await window.navigator.xr.setSession(session);
-      } catch (err) {
-        // immersive-vr not supported
-        videojs.log('VR: immersive-vr not supported');
-      }
-    }
+    // Start playing the video.
     super.handleClick(event);
   }
 }

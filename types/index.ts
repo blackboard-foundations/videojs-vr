@@ -80,9 +80,10 @@ export interface VR {
   /**
    * Request a WebXR session
    *
-   * Note the following caveats apply:
-   * 1. This assumes you've checked WebXR is supported using navigator.xr.isSessionSupported
-   * 2. You're calling this when handling a user action (e.g. handling a button click)
+   * Note this assumes you're calling this when handling a user action.
+   * e.g. handling a button click
+   *
+   * If XR is not supported, this will not do anything.
    */
   requestXRSession(): Promise<XRSession>;
 }
