@@ -33,7 +33,6 @@ Maintenance Status: Stable
 - [Accessing the Camera Position](#accessing-the-camera-position)
 - [Accessing THREE.js objects](#accessing-threejs-objects)
 - [Options](#options)
-  - [`forceCardboard`](#forcecardboard)
   - [`motionControls`](#motioncontrols)
   - [`projection`](#projection)
     - [`'180'`](#180)
@@ -202,11 +201,6 @@ player.vr().renderer;
 ```
 
 ## Options
-### `forceCardboard`
-> Type: `boolean`, default: `false`
-
-Force the cardboard button to display on all devices even if we don't think they support it.
-
 ### `motionControls`
 > Type: `boolean`, default: `true on ios and andriod`
 
