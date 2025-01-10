@@ -1,36 +1,10 @@
 class VRButton {
 
-  static createButton( renderer, sessionInit = {} ) {
+  static createButton( plugin ) {
 
     const button = document.createElement( 'button' );
 
-    function showEnterVR( /*device*/ ) {
-
-      let currentSession = null;
-
-      async function onSessionStarted( session ) {
-
-        session.addEventListener( 'end', onSessionEnded );
-
-        await renderer.xr.setSession( session );
-        button.textContent = 'EXIT VR';
-
-        currentSession = session;
-
-      }
-
-      function onSessionEnded( /*event*/ ) {
-
-        currentSession.removeEventListener( 'end', onSessionEnded );
-
-        button.textContent = 'RE-ENTER VR';
-
-        currentSession = null;
-
-      }
-
-      //
-
+    function showEnterVR() {
       button.style.display = '';
 
       button.style.cursor = 'pointer';
@@ -38,23 +12,6 @@ class VRButton {
       button.style.width = '100px';
 
       button.textContent = 'ENTER VR';
-
-      // WebXR's requestReferenceSpace only works if the corresponding feature
-      // was requested at session creation time. For simplicity, just ask for
-      // the interesting ones as optional features, but be aware that the
-      // requestReferenceSpace call will fail if it turns out to be unavailable.
-      // ('local' is always available for immersive sessions and doesn't need to
-      // be requested separately.)
-
-      const sessionOptions = {
-        ...sessionInit,
-        optionalFeatures: [
-          'local-floor',
-          'bounded-floor',
-          'layers',
-          ...( sessionInit.optionalFeatures || [] )
-        ],
-      };
 
       button.onmouseenter = function () {
 
@@ -69,43 +26,8 @@ class VRButton {
       };
 
       button.onclick = function () {
-
-        if ( currentSession === null ) {
-
-          navigator.xr.requestSession( 'immersive-vr', sessionOptions ).then( onSessionStarted );
-
-        } else {
-
-          currentSession.end();
-
-          if ( navigator.xr.offerSession !== undefined ) {
-
-            navigator.xr.offerSession( 'immersive-vr', sessionOptions )
-              .then( onSessionStarted )
-              .catch( ( err ) => {
-
-                console.warn( err );
-
-              } );
-
-          }
-
-        }
-
+        plugin.requestXRSession();
       };
-
-      if ( navigator.xr.offerSession !== undefined ) {
-
-        navigator.xr.offerSession( 'immersive-vr', sessionOptions )
-          .then( onSessionStarted )
-          .catch( ( err ) => {
-
-            console.warn( err );
-
-          } );
-
-      }
-
     }
 
     function disableButton() {
@@ -165,11 +87,15 @@ class VRButton {
 
       stylizeElement( button );
 
-      navigator.xr.isSessionSupported( 'immersive-vr' ).then( function ( supported ) {
+      navigator.xr.isSessionSupported('immersive-vr').then(function(supported) {
+        if (supported) {
+          showEnterVR();
+          plugin.offerXRSession();
+        } else {
+          showWebXRNotFound();
+        }
 
-        supported ? showEnterVR() : showWebXRNotFound();
-
-        if ( supported && VRButton.xrSessionIsGranted ) {
+        if (supported && VRButton.xrSessionIsGranted) {
 
           button.click();
 

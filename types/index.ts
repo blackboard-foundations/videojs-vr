@@ -62,4 +62,27 @@ export interface VR {
 
   /** Resets and initializes the video */
   init: () => void;
+
+  /**
+   * Indicates to the browser that this page can offer an immersive-vr session.
+   *
+   * This will display an "Enter VR" button next to the browser's address bar on
+   * those devices that support it. e.g., a Meta Quest.
+   * When the device does not support WebXR, this method does nothing and resolves
+   * immediately.
+   *
+   * This API mimicks the XRSystem#requestSession method. The promise is resolved
+   * when the user clicks the "Enter VR" button and enters the immersive experience.
+   */
+  offerXRSession(): Promise<XRSession | undefined>;
+
+
+  /**
+   * Request a WebXR session
+   *
+   * Note the following caveats apply:
+   * 1. This assumes you've checked WebXR is supported using navigator.xr.isSessionSupported
+   * 2. You're calling this when handling a user action (e.g. handling a button click)
+   */
+  requestXRSession(): Promise<XRSession>;
 }

@@ -808,7 +808,7 @@ void main() {
         if (supportsImmersiveVR) {
           if (this.options_.showEnterVR) {
             // We support WebXR show the enter VRButton
-            this.vrButton = VRButton.createButton(this.renderer);
+            this.vrButton = VRButton.createButton(this);
             document.body.appendChild(this.vrButton);
           }
           this.initImmersiveVR();
@@ -817,10 +817,6 @@ void main() {
           // fallback to older WebVR if WebXR immersive session is not available
           this.initVRPolyfill(displays);
         }
-        window.navigator.xr.setSession = (session) => {
-          this.currentSession = session;
-          this.renderer.xr.setSession(this.currentSession);
-        };
       });
     } else {
       // fallback to older WebVR if WebXR Device API is not available
@@ -1135,11 +1131,8 @@ void main() {
             break;
 
           case 'exit':
-            this.vrButton.click();
-            if (this.currentSession) {
-              this.currentSession.end();
-              this.player_.pause();
-            }
+            this.endXRSession();
+            this.player_.pause();
             break;
           }
           controller.userData.selectPressed = false;
@@ -1149,6 +1142,87 @@ void main() {
         this.highlight.visible = false;
       }
     }
+  }
+
+  /**
+   * Request a WebXR session
+   *
+   * Note the following caveats apply:
+   * 1. This assumes you've checked WebXR is supported using navigator.xr.isSessionSupported
+   * 2. You're calling this when handling a user action (e.g. handling a button click)
+   */
+  async requestXRSession() {
+    const session = await window.navigator.xr.requestSession('immersive-vr', this.getXRSessionOptions());
+
+    this.renderer.xr.setSession(session);
+    return session;
+  }
+
+  endXRSession() {
+    const session = this.renderer.xr.getSession();
+
+    if (!session) {
+      return;
+    }
+    session.end();
+
+    // Because the session ended, browsers that support "offering" sessions will
+    // no longer display the "Enter VR" button. Offer it again, so that the user
+    // can easily jump back into the session
+    this.offerXRSession();
+  }
+
+  /**
+   * Indicates to the browser that this page can offer an immersive-vr session.
+   *
+   * This will display an "Enter VR" button next to the browser's address bar on
+   * those devices that support it. e.g., a Meta Quest.
+   * When the device does not support WebXR, this method does nothing and resolves
+   * immediately.
+   *
+   * This API mimicks the XRSystem#requestSession method. The promise is resolved
+   * when the user clicks the "Enter VR" button and enters the immersive experience.
+   */
+  async offerXRSession() {
+    if (window.navigator.xr && window.navigator.xr.offerSession) {
+      try {
+        const session = await window.navigator.xr.offerSession('immersive-vr', this.getXRSessionOptions());
+
+        this.renderer.xr.setSession(session);
+        return session;
+      } catch (err) {
+        const isMultipleOfferError =
+          err &&
+          err.message &&
+          err.message.indexOf('OfferSession promise was cancelled because it was called more than once.') === 0;
+
+        if (!isMultipleOfferError) {
+          // Swallow errors for offering multiple sessions as we re-offer a session
+          // after ending one. These errors are harmless.
+          // Unfortunately, there's no way to "cancel" an earlier offer to avoid
+          // these errors.
+          throw err;
+        }
+      }
+    }
+
+    return Promise.resolve(undefined);
+  }
+
+  getXRSessionOptions() {
+    // WebXR's requestReferenceSpace only works if the corresponding feature
+    // was requested at session creation time. For simplicity, just ask for
+    // the interesting ones as optional features, but be aware that the
+    // requestReferenceSpace call will fail if it turns out to be unavailable.
+    // ('local' is always available for immersive sessions and doesn't need to
+    // be requested separately.)
+    return {
+      optionalFeatures: [
+        'local-floor',
+        'bounded-floor',
+        'layers'
+      ]
+    };
   }
 
   initImmersiveVR() {
