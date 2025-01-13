@@ -20,6 +20,7 @@ import {BoxLineGeometry} from 'three/examples/jsm/geometries/BoxLineGeometry';
 
 // import controls so they get registered with videojs
 import './big-vr-play-button';
+import './vr-navigator.js';
 
 // Default options for the plugin.
 const defaults = {
@@ -30,7 +31,8 @@ const defaults = {
   sphereDetail: 32,
   sphereRadius: 254.0,
   disableTogglePlay: false,
-  showEnterVR: true
+  showEnterVR: true,
+  showNavigator: true
 };
 
 const POLYFILL_CONFIG = {
@@ -786,6 +788,7 @@ void main() {
     this.prevTimestamps_ = [];
 
     this.renderedCanvas = this.renderer.domElement;
+    this.renderedCanvas.classList.add('vjs-vr-canvas');
     this.renderedCanvas.setAttribute('style', 'width: 100%; height: 100%; position: absolute; top:0;');
 
     const videoElStyle = this.getVideoEl_().style;
@@ -869,6 +872,9 @@ void main() {
       this.controls3d = new OrbitOrientationControls(options);
       this.canvasPlayerControls = new CanvasPlayerControls(this.player_, this.renderedCanvas, this.options_);
       this.animationFrameId_ = this.requestAnimationFrame(this.animate_);
+      if (this.options_.showNavigator) {
+        this.player_.addChild('VrNavigator', { vr: this });
+      }
     } else if (window.navigator.getVRDevices) {
       this.triggerError_({code: 'web-vr-out-of-date', dismiss: false});
     } else {

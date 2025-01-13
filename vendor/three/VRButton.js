@@ -82,7 +82,7 @@ class VRButton {
 
     if ( 'xr' in navigator ) {
 
-      button.id = 'VRButton';
+      button.classList.add('vjs-vr-button');
       button.style.display = 'none';
 
       stylizeElement( button );

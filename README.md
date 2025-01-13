@@ -54,6 +54,7 @@ Maintenance Status: Stable
   - [`omnitoneOptions`](#omnitoneoptions)
   - [`disableTogglePlay`](#disabletoggleplay)
   - [`showEnterVR`](#showentervr)
+  - [`showNavigator`](#shownavigator)
 - [Credits](#credits)
 - [Support](#support)
 
@@ -297,6 +298,13 @@ This functionality is useful in live events so that users cannot stop the live, 
 > type: `boolean`, default: `true`
 
 When enabled, adds the "Enter VR" button on top of the video player.
+
+### `showNavigator`
+
+> type: `boolean`, default: `true`
+
+When enabled, adds the navigator which indicates which portion of the video is
+currently displayed, along with 4 navigator buttons to manually pan around.
 
 ## Credits ##
 

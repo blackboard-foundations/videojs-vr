@@ -1,3 +1,6 @@
 {
-  "Include your own strings in JSON files.": "Include your own strings in JSON files."
+  "Up": "Up",
+  "Down": "Down",
+  "Left": "Left",
+  "Right": "Right"
 }
