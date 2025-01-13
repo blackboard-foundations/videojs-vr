@@ -5,7 +5,7 @@ import videojs from 'video.js';
 import * as THREE from 'three';
 import VRControls from '../vendor/three/VRControls.js';
 import VREffect from '../vendor/three/VREffect.js';
-import OrbitOrientationContols from './orbit-orientation-controls.js';
+import OrbitOrientationControls from './orbit-orientation-controls.js';
 import * as utils from './utils';
 import CanvasPlayerControls from './canvas-player-controls';
 import OmnitoneController from './omnitone-controller';
@@ -65,6 +65,9 @@ class VR extends Plugin {
     super(player, settings);
 
     this.options_ = settings;
+    const isMobile = (videojs.browser.IS_IOS || videojs.browser.IS_ANDROID);
+
+    this.options_.motionControls = settings.motionControls !== false && isMobile;
     this.player_ = player;
     this.bigPlayButtonIndex_ = player.children().indexOf(player.getChild('BigPlayButton')) || 0;
 
@@ -855,14 +858,15 @@ void main() {
         canvas: this.renderedCanvas,
         // check if its a half sphere view projection
         halfView: this.currentProjection_.indexOf('180') === 0,
-        orientation: videojs.browser.IS_IOS || videojs.browser.IS_ANDROID
+
+        // Orientation is explicitly disabled unless the user starts with the
+        // big play button. When clicking the button, device motion support is
+        // explicitly requested. Otherwise, we may receive bogus data causing
+        // odd rendering issues.
+        orientation: false
       };
 
-      if (this.options_.motionControls === false) {
-        options.orientation = false;
-      }
-
-      this.controls3d = new OrbitOrientationContols(options);
+      this.controls3d = new OrbitOrientationControls(options);
       this.canvasPlayerControls = new CanvasPlayerControls(this.player_, this.renderedCanvas, this.options_);
       this.animationFrameId_ = this.requestAnimationFrame(this.animate_);
     } else if (window.navigator.getVRDevices) {
@@ -895,6 +899,12 @@ void main() {
 
     this.initialized_ = true;
     this.trigger('initialized');
+  }
+
+  enableOrientation() {
+    if (this.controls3d instanceof OrbitOrientationControls) {
+      this.controls3d.enableOrientation();
+    }
   }
 
   buildControllers() {

@@ -16,15 +16,7 @@ const _changeEvent = { type: 'change' };
 class DeviceOrientationControls extends EventDispatcher {
 
   constructor( object ) {
-
     super();
-
-    if ( window.isSecureContext === false ) {
-
-      console.error( 'THREE.DeviceOrientationControls: DeviceOrientationEvent is only available in secure contexts (https)' );
-
-    }
-
     const scope = this;
 
     const EPS = 0.000001;
@@ -33,7 +25,7 @@ class DeviceOrientationControls extends EventDispatcher {
     this.object = object;
     this.object.rotation.reorder( 'YXZ' );
 
-    this.enabled = true;
+    this.enabled = window.isSecureContext;
 
     this.deviceOrientation = {};
     this.screenOrientation = 0;
@@ -66,13 +58,9 @@ class DeviceOrientationControls extends EventDispatcher {
     };
 
     this.connect = function () {
-
       onScreenOrientationChangeEvent(); // run once on load
       window.addEventListener( 'orientationchange', onScreenOrientationChangeEvent );
       window.addEventListener( 'deviceorientation', onDeviceOrientationChangeEvent );
-
-      scope.enabled = true;
-
     };
 
     this.disconnect = function () {
@@ -105,13 +93,11 @@ class DeviceOrientationControls extends EventDispatcher {
           if (8 * (1 - lastQuaternion.dot(scope.object.quaternion)) > EPS) {
             lastQuaternion.copy(scope.object.quaternion);
             scope.dispatchEvent(_changeEvent);
-            return true;
           }
         }
 
+        return true;
       }
-
-      return false;
 
     };
 

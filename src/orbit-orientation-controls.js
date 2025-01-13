@@ -54,17 +54,16 @@ class OrbitOrientationControls {
     this.orbit.enablePan = false;
     this.orbit.keyRotateSpeed = -this.speed;
 
-    // if orientation is supported
-    if (options.orientation) {
-      this.orientation = new DeviceOrientationControls(this.object);
-    }
-
     // if projection is not full view
     // limit the rotation angle in order to not display back half view
     if (options.halfView) {
       this.orbit.minAzimuthAngle = -Math.PI / 4;
       this.orbit.maxAzimuthAngle = Math.PI / 4;
     }
+  }
+
+  enableOrientation() {
+    this.orientation = new DeviceOrientationControls(this.object);
   }
 
   update() {
@@ -76,7 +75,11 @@ class OrbitOrientationControls {
     // it will take those into account when it updates the camera and overrides
     // our changes
     if (this.orientation) {
-      this.orientation.update();
+      // if orientation is not updated, we don't want to update the orbit. This
+      // can happen if the user has not given permission to access the orientation
+      if (!this.orientation.update()) {
+        return;
+      }
 
       const quat = this.orientation.object.quaternion;
       const currentAngle = Quat2Angle(quat.x, quat.y, quat.z, quat.w);

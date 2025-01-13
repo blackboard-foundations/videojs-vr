@@ -13,15 +13,15 @@ class BigVrPlayButton extends BigPlayButton {
   }
 
   async handleClick(event) {
-    // For iOS we need permission for the device orientation data, this will pop up an 'Allow' if not already set
-    // eslint-disable-next-line
+    // For iOS we need permission for the device orientation data,
+    // this will pop up an 'Allow' if not already set
     if (this.options().vr.options_.motionControls &&
         typeof window.DeviceMotionEvent === 'function' &&
         typeof window.DeviceMotionEvent.requestPermission === 'function') {
       const response = await window.DeviceMotionEvent.requestPermission();
 
-      if (response !== 'granted') {
-        videojs.log('DeviceMotionEvent permissions not set');
+      if (response === 'granted') {
+        this.options().vr.enableOrientation();
       }
     }
 
