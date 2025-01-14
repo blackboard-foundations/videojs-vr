@@ -873,7 +873,7 @@ void main() {
       this.canvasPlayerControls = new CanvasPlayerControls(this.player_, this.renderedCanvas, this.options_);
       this.animationFrameId_ = this.requestAnimationFrame(this.animate_);
       if (this.options_.showNavigator) {
-        this.player_.addChild('VrNavigator', { vr: this });
+        this.navigator = this.player_.addChild('VrNavigator', { vr: this });
       }
     } else if (window.navigator.getVRDevices) {
       this.triggerError_({code: 'web-vr-out-of-date', dismiss: false});
