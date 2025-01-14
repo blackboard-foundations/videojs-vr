@@ -106,4 +106,15 @@ canvas.vjs-vr-canvas {
       color: #494B52;
     }
   }
+
+  .vjs-vr-annotation {
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #FFF;
+    position: absolute;
+    top: calc(50% - 4px);
+    left: calc(50% - 4px);
+  }
 }

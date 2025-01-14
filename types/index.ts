@@ -60,6 +60,13 @@ export interface VR {
    */
   controllers?: XRTargetRaySpace[];
 
+  /**
+   * The navigator element
+   *
+   * Initialized when the player is ready.
+   */
+  navigator?: VrNavigator;
+
   /** Resets and initializes the video */
   init: () => void;
 
@@ -86,4 +93,30 @@ export interface VR {
    * If XR is not supported, this will not do anything.
    */
   requestXRSession(): Promise<XRSession>;
+}
+
+export interface AnnotationOption {
+  /** A valid CSS background color for the annotation */
+  backgroundColor?: string;
+}
+
+export interface VrNavigator {
+  /**
+   * Add an annotation at the given coordinate
+   *
+   * Note that this only affects this component. It does not add any annotations
+   * in the projected video.
+   *
+   * @param x The coordinate add an annotation. This is the x coordinate
+   *  in the video texture. i.e., if your video is 2048px wide and you want to
+   *  indicate something interesting halfway, you would pass 1024 here.
+   * @param options An object with additional options. Specify a `color`
+   *   key with a valid CSS color value to change the background color of the
+   *   annotation.
+   * @returns The annotation element that was added to the DOM
+   */
+  addAnnotation(x: number, options: AnnotationOption): HTMLSpanElement
+
+  /** Remove existing annotations from the DOM */
+  clearAnnotations(): void;
 }

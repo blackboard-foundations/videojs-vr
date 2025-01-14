@@ -1,4 +1,5 @@
 import videojs from 'video.js';
+import document from 'global/document';
 const Component = videojs.getComponent('Component');
 
 class VrNavigator extends Component {
@@ -96,6 +97,45 @@ class VrNavigator extends Component {
 
   panEnd() {
     clearInterval(this.panInterval);
+  }
+
+  /**
+   * Add an annotation at the given coordinate
+   *
+   * Note that this only affects this component. It does not add any annotations
+   * in the projected video.
+   *
+   * @param {number} x The coordinate add an annotation. This is the x coordinate
+   *  in the video texture. i.e., if your video is 2048px wide and you want to
+   *  indicate something interesting halfway, you would pass 1024 here.
+   * @param {Object} options An object with additional options. Specify a `backgroundColor`
+   *   key with a valid CSS color value to change the background color of the
+   *   annotation.
+   * @return The annotation element that was added to the DOM
+   */
+  addAnnotation(x, options = { backgroundColor: '#FFF' }) {
+    const annotation = document.createElement('span');
+
+    annotation.className = 'vjs-vr-annotation';
+    if (options.backgroundColor) {
+      annotation.style.backgroundColor = options.backgroundColor;
+    }
+
+    const width = this.options().vr.videoTexture.image.videoWidth;
+    const angle = 360 * x / width;
+    const angleRads = angle * Math.PI / 180;
+    // 51px gets to halfway the moving "viewing" bar of the navigator
+    const translateX = Math.floor(-51 * Math.sin(angleRads));
+    const translateY = Math.floor(51 * Math.cos(angleRads));
+
+    annotation.style.transform = `translate(${translateX}px, ${translateY}px)`;
+    this.el().appendChild(annotation);
+    return annotation;
+  }
+
+  /** Remove existing annotations from the DOM */
+  clearAnnotations() {
+    [...this.el().querySelectorAll('.vjs-vr-annotation')].forEach((el) => el.remove());
   }
 }
 
