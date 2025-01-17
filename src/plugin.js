@@ -1386,6 +1386,10 @@ void main() {
       this.player_.removeChild('BigVrPlayButton');
     }
 
+    if (this.player_.getChild('VrNavigator')) {
+      this.player_.removeChild('VrNavigator');
+    }
+
     // show the fullscreen again
     if (videojs.browser.IS_IOS && this.player_.controlBar && this.player_.controlBar.fullscreenToggle) {
       this.player_.controlBar.fullscreenToggle.show();

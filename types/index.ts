@@ -67,8 +67,11 @@ export interface VR {
    */
   navigator?: VrNavigator;
 
-  /** Resets and initializes the video */
+  /** Resets and initializes the video for display in an interactive manner */
   init: () => void;
+
+  /** Remove any 360 or VR references */
+  reset: () => void;
 
   /**
    * Indicates to the browser that this page can offer an immersive-vr session.
