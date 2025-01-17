@@ -30,11 +30,23 @@ class VrNavigator extends Component {
       this.panStart(direction);
     };
     const panEndHandler = () => this.panEnd();
+    const panStartKeyHandler = (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        panStartHandler(event);
+      }
+    };
+    const panEndKeyHandler = (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        this.panEnd();
+      }
+    };
 
     [...div.querySelectorAll('button')].forEach((button) => {
       button.addEventListener('mousedown', panStartHandler);
       button.addEventListener('mouseup', panEndHandler);
       button.addEventListener('mouseout', panEndHandler);
+      button.addEventListener('keydown', panStartKeyHandler);
+      button.addEventListener('keyup', panEndKeyHandler);
       button.addEventListener('touchstart', panStartHandler);
       button.addEventListener('touchend', panEndHandler);
       button.addEventListener('touchmove', (event) => {
