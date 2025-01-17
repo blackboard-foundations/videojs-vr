@@ -32,11 +32,13 @@ class VrNavigator extends Component {
     const panEndHandler = () => this.panEnd();
     const panStartKeyHandler = (event) => {
       if (event.key === 'Enter' || event.key === ' ') {
+        event.stopImmediatePropagation();
         panStartHandler(event);
       }
     };
     const panEndKeyHandler = (event) => {
       if (event.key === 'Enter' || event.key === ' ') {
+        event.stopImmediatePropagation();
         this.panEnd();
       }
     };
