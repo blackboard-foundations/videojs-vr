@@ -96,6 +96,13 @@ export interface VR {
    * If XR is not supported, this will not do anything.
    */
   requestXRSession(): Promise<XRSession>;
+
+  /**
+   * Set the projection of the video
+   *
+   * @param projection The projection to set
+   */
+  setProjection(projection: string);
 }
 
 export interface AnnotationOption {
