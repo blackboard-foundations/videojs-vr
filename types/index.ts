@@ -102,7 +102,7 @@ export interface VR {
    *
    * @param projection The projection to set
    */
-  setProjection(projection: string);
+  setProjection(projection: string): void;
 }
 
 export interface AnnotationOption {
