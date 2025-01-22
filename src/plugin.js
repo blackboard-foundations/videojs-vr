@@ -897,6 +897,7 @@ void main() {
     }
 
     this.on(this.player_, 'fullscreenchange', this.handleResize_);
+    this.on(this.player_, 'playerresize', this.handleResize_);
     window.addEventListener('vrdisplaypresentchange', this.handleResize_, true);
     window.addEventListener('resize', this.handleResize_, true);
     window.addEventListener('vrdisplayactivate', this.handleVrDisplayActivate_, true);
