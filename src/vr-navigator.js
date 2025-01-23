@@ -14,30 +14,51 @@ class VrNavigator extends Component {
     });
 
     div.innerHTML = `
+      <div class="vjs-vr-circle"></div>
       <div class="vjs-vr-slice"></div>
       <div class="vjs-vr-cutout">
-        <button class="vjs-vr-btn-row" data-direction="up" title="${this.player().localize('Up')}">&#9650;</button>
+        <button class="vjs-vr-btn-row" data-direction="up" title="${this.player().localize('Up')}">
+          <svg width="12" height="7" viewBox="0 0 12 7" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M11.7071 6.70711C11.3166 7.09763 10.6834 7.09763 10.2929 6.70711L6 2.41421L1.70711 6.70711C1.31658 7.09763 0.683418 7.09763 0.292894 6.70711C-0.0976312 6.31658 -0.0976312 5.68342 0.292894 5.29289L5.29289 0.292893C5.68342 -0.0976311 6.31658 -0.0976311 6.70711 0.292893L11.7071 5.29289C12.0976 5.68342 12.0976 6.31658 11.7071 6.70711Z"/>
+          </svg>
+        </button>
         <div class="vjs-vr-btn-row vjs-vr-left-right">
-          <button data-direction="left" title="${this.player().localize('Left')}">&#9664;</button>
-          <button data-direction="right" title="${this.player().localize('Right')}">&#9654;</button>
+          <button data-direction="left" title="${this.player().localize('Left')}">
+            <svg width="12" height="7" viewBox="0 0 12 7" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M11.7071 6.70711C11.3166 7.09763 10.6834 7.09763 10.2929 6.70711L6 2.41421L1.70711 6.70711C1.31658 7.09763 0.683418 7.09763 0.292894 6.70711C-0.0976312 6.31658 -0.0976312 5.68342 0.292894 5.29289L5.29289 0.292893C5.68342 -0.0976311 6.31658 -0.0976311 6.70711 0.292893L11.7071 5.29289C12.0976 5.68342 12.0976 6.31658 11.7071 6.70711Z"/>
+            </svg>
+          </button>
+          <button data-direction="right" title="${this.player().localize('Right')}">
+            <svg width="12" height="7" viewBox="0 0 12 7" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M11.7071 6.70711C11.3166 7.09763 10.6834 7.09763 10.2929 6.70711L6 2.41421L1.70711 6.70711C1.31658 7.09763 0.683418 7.09763 0.292894 6.70711C-0.0976312 6.31658 -0.0976312 5.68342 0.292894 5.29289L5.29289 0.292893C5.68342 -0.0976311 6.31658 -0.0976311 6.70711 0.292893L11.7071 5.29289C12.0976 5.68342 12.0976 6.31658 11.7071 6.70711Z"/>
+            </svg>
+          </button>
         </div>
-        <button class="vjs-vr-btn-row" data-direction="down" title="${this.player().localize('Down')}">&#9660;</button>
+        <button class="vjs-vr-btn-row" data-direction="down" title="${this.player().localize('Down')}">
+          <svg width="12" height="7" viewBox="0 0 12 7" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M11.7071 6.70711C11.3166 7.09763 10.6834 7.09763 10.2929 6.70711L6 2.41421L1.70711 6.70711C1.31658 7.09763 0.683418 7.09763 0.292894 6.70711C-0.0976312 6.31658 -0.0976312 5.68342 0.292894 5.29289L5.29289 0.292893C5.68342 -0.0976311 6.31658 -0.0976311 6.70711 0.292893L11.7071 5.29289C12.0976 5.68342 12.0976 6.31658 11.7071 6.70711Z"/>
+          </svg>
+        </button>
       </div>`;
 
     const panStartHandler = (event) => {
-      const direction = event.target.getAttribute('data-direction');
+      const direction = event.currentTarget.getAttribute('data-direction');
 
       this.panStart(direction);
     };
-    const panEndHandler = () => this.panEnd();
+    const panEndHandler = (event) => {
+      this.panEnd();
+    };
     const panStartKeyHandler = (event) => {
       if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
         event.stopImmediatePropagation();
         panStartHandler(event);
       }
     };
     const panEndKeyHandler = (event) => {
       if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
         event.stopImmediatePropagation();
         this.panEnd();
       }
@@ -63,6 +84,45 @@ class VrNavigator extends Component {
         }
       });
     });
+
+    // Apply a custom hitzone to the cutout div. As the buttons are a bit small,
+    // this allows for clicking _next_ to the actual button as well. The custom
+    // hitzone divides the circle in four quarters.
+    const cutout = div.querySelector('.vjs-vr-cutout');
+
+    cutout.addEventListener('mousedown', (event) => {
+      const cutoutRect = cutout.getBoundingClientRect();
+      const w = event.clientX - cutoutRect.left;
+      const h = event.clientY - cutoutRect.top;
+
+      const y = (cutoutRect.height / 2) - h;
+      const x = w - cutoutRect.width / 2;
+
+      // Calculate the angle between the center of the circle and the clicked point
+      let angle = Math.atan(y / x) * 180 / Math.PI;
+
+      if (y > 0 && x < 0) {
+        angle = 90 + (90 - Math.abs(angle));
+      } else if (y < 0 && x < 0) {
+        angle = 180 + angle;
+      } else if (y < 0 && x > 0) {
+        angle = 270 + (90 - Math.abs(angle));
+      }
+
+      if (angle < 135 && angle > 45) {
+        this.panStart('up');
+      } else if (angle > 135 && angle < 225) {
+        this.panStart('left');
+      }
+      if (angle > 225 && angle < 315) {
+        this.panStart('down');
+      }
+      if (angle > 315 || angle < 45) {
+        this.panStart('right');
+      }
+    });
+    cutout.addEventListener('mouseup', panEndHandler);
+    cutout.addEventListener('mouseout', panEndHandler);
 
     // Use W-A-S-D keys to pan the video. This is in addition to threejs its
     // own key bindings. Unfortunately, the out of the box bindings are
@@ -133,25 +193,30 @@ class VrNavigator extends Component {
    * @param {number} x The coordinate add an annotation. This is the x coordinate
    *  in the video texture. i.e., if your video is 2048px wide and you want to
    *  indicate something interesting halfway, you would pass 1024 here.
-   * @param {Object} options An object with additional options. Specify a `backgroundColor`
-   *   key with a valid CSS color value to change the background color of the
-   *   annotation.
+   * @param {number} y The coordinate add an annotation. This is the y coordinate
+   *  in the video texture. i.e., if your video is 1024px tall and you want to
+   *  indicate something interesting halfway, you would pass 512 here.
    * @return The annotation element that was added to the DOM
    */
-  addAnnotation(x, options = { backgroundColor: '#FFF' }) {
+  addAnnotation(x, y, options) {
+    const styles = (options && options.styles) || {};
     const annotation = document.createElement('span');
 
     annotation.className = 'vjs-vr-annotation';
-    if (options.backgroundColor) {
-      annotation.style.backgroundColor = options.backgroundColor;
-    }
+    Object.keys(styles).forEach((style) => {
+      annotation.style[style] = styles[style];
+    });
 
     const width = this.options().vr.videoTexture.image.videoWidth;
-    const angle = 360 * x / width;
+    const height = this.options().vr.videoTexture.image.videoHeight;
+    const angle = 360 * x / width + 90;
     const angleRads = angle * Math.PI / 180;
-    // 51px gets to halfway the moving "viewing" bar of the navigator
-    const translateX = Math.floor(-51 * Math.sin(angleRads));
-    const translateY = Math.floor(51 * Math.cos(angleRads));
+
+    const length = 18 + (22 * y / height);
+
+    // 30px gets to halfway the moving "viewing" bar of the navigator
+    const translateX = Math.floor(Math.cos(angleRads) * length);
+    const translateY = Math.floor(Math.sin(angleRads) * length);
 
     annotation.style.transform = `translate(${translateX}px, ${translateY}px)`;
     this.el().appendChild(annotation);
