@@ -55,10 +55,12 @@ canvas.vjs-vr-canvas {
 
 .vjs-vr-navigator {
   position: absolute;
-  left: 1em;
-  bottom: 3.1em;
-  width: 88px;
-  height: 88px;
+  left: 12px;
+  top: 12px;
+  /* Note that these dimensions are made responsive using a transform, see below */
+  width: 44px;
+  height: 44px;
+
   .vjs-vr-circle {
     position: absolute;
     width: 100%;
@@ -92,7 +94,7 @@ canvas.vjs-vr-canvas {
     height: 28%;
     top: 36%;
     left: 36%;
-    transition:ease-in-out 0.2s;
+    transition: ease-in-out 0.2s;
 
     .vjs-vr-btn-row {
       height: 33%;
@@ -100,16 +102,19 @@ canvas.vjs-vr-canvas {
 
     .vjs-vr-left-right {
       display: flex;
-      gap: 12px;
     }
 
     button {
+      display: none;
       background-color: transparent;
       border: none;
       color: #262626;
       cursor: pointer;
-      min-width: 2em;
-      line-height: 10px;
+
+      svg {
+        width: 6px;
+        height: 3.5px;
+      }
 
       &:hover svg {
         fill: #5d5d5d;
@@ -117,7 +122,6 @@ canvas.vjs-vr-canvas {
     }
     button[data-direction="left"] {
       transform: rotate(-90deg);
-      display: none;
     }
     button[data-direction="right"] {
       transform: rotate(90deg);
@@ -137,20 +141,47 @@ canvas.vjs-vr-canvas {
     left: 18%;
 
     button {
-      display: inline;
+      display: inline-flex;
     }
   }
 
   .vjs-vr-annotation {
     display: block;
-    width: 10px;
-    height: 10px;
+    width: 5px;
+    height: 5px;
     border-radius: 50%;
     background-color: #A234b5;
-    border: 1px solid #ecd0f1;
+    border: 0.5px solid #ecd0f1;
     position: absolute;
-    top: calc(50% - 5px);
-    left: calc(50% - 5px);
+    top: calc(50% - 2px);
+    left: calc(50% - 2px);
     transform-origin: center center;
+  }
+
+  @mixin scale-up {
+    transform-origin: top left;
+    // Rather than resizing the navigator using width/height, scale it using transform.
+    // This simplifies the positioning of the cutout and the annotations
+    transform: scale(2);
+
+    .vjs-vr-cutout button[data-direction="up"] {
+      display: inline-flex;
+    }
+  }
+
+  // When hovering over the navigator on a small screen, scale it up. Note that
+  // there is no hover on phone screens, however they should be able to use touch
+  // to easily pan the canvas
+  @media (max-width: 640px) {
+    &:hover,
+    &:focus-within {
+      @include scale-up;
+      transition: linear 0.1s;
+    }
+  }
+
+  // Larger screens get twice the size of the navigator immediately
+  @media (min-width: 640px) {
+    @include scale-up;
   }
 }
