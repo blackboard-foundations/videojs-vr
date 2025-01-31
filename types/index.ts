@@ -5,9 +5,71 @@ import {
   Scene,
   SphereGeometry,
   WebGLRenderer,
-  XRTargetRaySpace
-} from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+  XRTargetRaySpace,
+} from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+
+export type Projection =
+  | "180"
+  | "180_LR"
+  | "180_TB"
+  | "180_MONO"
+  | "360"
+  | "Sphere"
+  | "equirectangular"
+  | "Cube"
+  | "360_CUBE"
+  | "NONE"
+  | "AUTO"
+  | "360_LR"
+  | "360_TB"
+  | "EAC"
+  | "EAC_LR";
+
+export interface VROptions {
+  /**
+   * Whether motion/gyro controls should be enabled.
+   * @default true on ios and andriod
+   */
+  motionControls?: boolean;
+  /**
+   * The projection of the source video.
+   *
+   * @default "auto"
+   */
+  projection?: Projection;
+  /**
+   * This alters the number of segments in the spherical mesh onto which equirectangular
+   * videos are projected. The default is `32` but in some circumstances you may notice
+   * artifacts and need to increase this number.
+   * @default 32
+   */
+  sphereDetail?: number;
+  /**
+   * Enable debug logging
+   * @default false
+   */
+  debug?: boolean;
+  /**
+   * Use this property to pass the Omnitone library object to the plugin.
+   *
+   * Please be aware of, the Omnitone library is not included in the build files.
+   */
+  omnitone?: any;
+  omnitoneOptions?: any;
+  disableTogglePlay?: boolean;
+  /**
+   * When enabled, adds the "Enter VR" button on top of the video player.
+   * @default true
+   */
+  showEnterVR?: boolean;
+  /**
+   * When enabled, adds the navigator which indicates which portion of the video
+   * is currently displayed, along with 4 navigator buttons to manually pan around.
+   * @default true
+   */
+  showNavigator?: boolean;
+}
 
 /**
  * The video.js VR plugin class
@@ -86,7 +148,6 @@ export interface VR {
    */
   offerXRSession(): Promise<XRSession | undefined>;
 
-
   /**
    * Request a WebXR session
    *
@@ -125,7 +186,7 @@ export interface VrNavigator {
    *   annotation.
    * @returns The annotation element that was added to the DOM
    */
-  addAnnotation(x: number, options: AnnotationOption): HTMLSpanElement
+  addAnnotation(x: number, options: AnnotationOption): HTMLSpanElement;
 
   /** Remove existing annotations from the DOM */
   clearAnnotations(): void;
