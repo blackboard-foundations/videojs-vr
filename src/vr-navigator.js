@@ -18,24 +18,24 @@ class VrNavigator extends Component {
       <div class="vjs-vr-slice"></div>
       <div class="vjs-vr-cutout">
         <button class="vjs-vr-btn-row" data-direction="up" title="${this.player().localize('Up')}">
-          <svg viewBox="0 0 12 7" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 12 7" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path fill-rule="evenodd" clip-rule="evenodd" d="M11.7071 6.70711C11.3166 7.09763 10.6834 7.09763 10.2929 6.70711L6 2.41421L1.70711 6.70711C1.31658 7.09763 0.683418 7.09763 0.292894 6.70711C-0.0976312 6.31658 -0.0976312 5.68342 0.292894 5.29289L5.29289 0.292893C5.68342 -0.0976311 6.31658 -0.0976311 6.70711 0.292893L11.7071 5.29289C12.0976 5.68342 12.0976 6.31658 11.7071 6.70711Z"/>
           </svg>
         </button>
         <div class="vjs-vr-btn-row vjs-vr-left-right">
           <button data-direction="left" title="${this.player().localize('Left')}">
-            <svg viewBox="0 0 12 7" xmlns="http://www.w3.org/2000/svg">
+            <svg viewBox="0 0 12 7" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path fill-rule="evenodd" clip-rule="evenodd" d="M11.7071 6.70711C11.3166 7.09763 10.6834 7.09763 10.2929 6.70711L6 2.41421L1.70711 6.70711C1.31658 7.09763 0.683418 7.09763 0.292894 6.70711C-0.0976312 6.31658 -0.0976312 5.68342 0.292894 5.29289L5.29289 0.292893C5.68342 -0.0976311 6.31658 -0.0976311 6.70711 0.292893L11.7071 5.29289C12.0976 5.68342 12.0976 6.31658 11.7071 6.70711Z"/>
             </svg>
           </button>
           <button data-direction="right" title="${this.player().localize('Right')}">
-            <svg viewBox="0 0 12 7" xmlns="http://www.w3.org/2000/svg">
+            <svg viewBox="0 0 12 7" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path fill-rule="evenodd" clip-rule="evenodd" d="M11.7071 6.70711C11.3166 7.09763 10.6834 7.09763 10.2929 6.70711L6 2.41421L1.70711 6.70711C1.31658 7.09763 0.683418 7.09763 0.292894 6.70711C-0.0976312 6.31658 -0.0976312 5.68342 0.292894 5.29289L5.29289 0.292893C5.68342 -0.0976311 6.31658 -0.0976311 6.70711 0.292893L11.7071 5.29289C12.0976 5.68342 12.0976 6.31658 11.7071 6.70711Z"/>
             </svg>
           </button>
         </div>
         <button class="vjs-vr-btn-row" data-direction="down" title="${this.player().localize('Down')}">
-          <svg viewBox="0 0 12 7" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 12 7" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path fill-rule="evenodd" clip-rule="evenodd" d="M11.7071 6.70711C11.3166 7.09763 10.6834 7.09763 10.2929 6.70711L6 2.41421L1.70711 6.70711C1.31658 7.09763 0.683418 7.09763 0.292894 6.70711C-0.0976312 6.31658 -0.0976312 5.68342 0.292894 5.29289L5.29289 0.292893C5.68342 -0.0976311 6.31658 -0.0976311 6.70711 0.292893L11.7071 5.29289C12.0976 5.68342 12.0976 6.31658 11.7071 6.70711Z"/>
           </svg>
         </button>
