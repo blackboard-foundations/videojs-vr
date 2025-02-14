@@ -163,6 +163,17 @@ class VrNavigator extends Component {
     const oneMovement = (Math.PI * 2) / 360;
 
     this.panInterval = setInterval(() => {
+      // Ensure the controls are still active as they get reset when the player
+      // unmounts.
+      if (
+        !vr ||
+        !vr.controls3d ||
+        !vr.controls3d.orbit ||
+        !vr.controls3d.orbit._rotateLeft ||
+        !vr.controls3d.orbit._rotateUp
+      ) {
+        return;
+      }
       switch (direction) {
       case 'up':
         vr.controls3d.orbit._rotateUp(-oneMovement);
